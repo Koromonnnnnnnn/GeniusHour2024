@@ -1,6 +1,7 @@
 import pygame
 import random
 
+# This shake function was not created by me
 class ShakeEffect:
     def __init__(self, surface, image, position, shake_intensity= 2, shake_duration=100):
         self.surface = surface

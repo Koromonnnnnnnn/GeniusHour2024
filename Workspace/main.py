@@ -1,9 +1,11 @@
 import pygame
 import random
 import math
+from pygame import mixer
 from shakeMechanics import ShakeEffect
 
 pygame.init()
+mixer.init()
 
 gamescreen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Space Shuttle Hyperspeed")
@@ -20,6 +22,9 @@ boss_image = pygame.transform.scale(boss_image, (180, 180))
 
 shake_effect = ShakeEffect(gamescreen, boss_image, (555, 190))
 bossFight = True
+
+boss_music = pygame.mixer.music.load("bossBattle.mp3")
+pygame.mixer.music.set_volume(0.35)
 
 points = [  # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
     (0, 12),
@@ -93,6 +98,8 @@ def hue_to_rgb(hue):  # This hue to rgb function was not created by me.
 
     return (int(r), int(g), int(b))
 
+
+bossmusic_playing = False
 
 while not gameOver:
     clock.tick(60)
@@ -180,6 +187,9 @@ while not gameOver:
 
     if bossFight and not shake_effect.is_shaking:
         shake_effect.start()
+    if not bossmusic_playing:  # Check if music is not already playing
+        pygame.mixer.music.play(-1)  # Loop the music
+        bossmusic_playing = True
 
     shake_effect.update()
 
