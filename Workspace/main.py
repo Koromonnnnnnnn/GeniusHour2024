@@ -11,22 +11,41 @@ clock = pygame.time.Clock()
 cockpit_image = pygame.image.load("cockpit.png")
 cockpit_image = pygame.transform.scale(cockpit_image, (1280, 720))
 
-points = [ # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
-    (0, 12), (454, 181), (492, 369),
-    (135, 439), (127, 433), (75, 454),
-    (73, 451), (52, 447), (36, 447), (0, 461)
+points = [  # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
+    (0, 12),
+    (454, 181),
+    (492, 369),
+    (135, 439),
+    (127, 433),
+    (75, 454),
+    (73, 451),
+    (52, 447),
+    (36, 447),
+    (0, 461),
 ]
 
-points2 = [ # These points are here to define the areas where enemies are allowed to spawn. (Middle Window)
-    (517, 153), (488, 186), (513, 366),
-    (760, 366), (799, 183), (767, 149),
-    (636, 148)
+points2 = [  # These points are here to define the areas where enemies are allowed to spawn. (Middle Window)
+    (517, 153),
+    (488, 186),
+    (513, 366),
+    (760, 366),
+    (799, 183),
+    (767, 149),
+    (636, 148),
 ]
 
-points3 = [ # These points are here to define the areas where enemies are allowed to spawn. (Rigt Window)
-    (812, 188), (1207, 1), (1276, 3),
-    (1275, 420), (1275, 444), (1106, 394),
-    (1056, 387), (787, 379), (775, 349), (817, 181), (1026, 90)
+points3 = [  # These points are here to define the areas where enemies are allowed to spawn. (Rigt Window)
+    (812, 188),
+    (1207, 1),
+    (1276, 3),
+    (1275, 420),
+    (1275, 444),
+    (1106, 394),
+    (1056, 387),
+    (787, 379),
+    (775, 349),
+    (817, 181),
+    (1026, 90),
 ]
 
 gameOver = False
@@ -132,17 +151,16 @@ while not gameOver:
 
     gamescreen.fill((0, 0, 0))
 
+    pygame.draw.polygon(gamescreen, (0, 0, 0), points)  # For testing (Left Window)
+
+    pygame.draw.polygon(gamescreen, (0, 0, 0), points2)  # For testing (Middle Window)
+
+    pygame.draw.polygon(gamescreen, (0, 0, 0), points3)  # For testing (Right Window)
+
     for i in range(len(xpos)):
         pygame.draw.circle(
             gamescreen, colors[i], (int(xpos[i]), int(ypos[i])), int(sizes[i])
         )
-
-    pygame.draw.polygon(gamescreen, (255, 0, 0), points) # For testing (Left Window)
-
-    pygame.draw.polygon(gamescreen, (255, 0, 0), points2) # For testing (Middle Window)
-
-    pygame.draw.polygon(gamescreen, (255, 0, 0), points3) # For testing (Right Window)
-
 
     pygame.draw.circle(gamescreen, path_color, (xpos_path, ypos_path), 2)
 
