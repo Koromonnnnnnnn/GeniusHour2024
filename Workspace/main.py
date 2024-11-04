@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+from shakeMechanics import ShakeEffect
 
 pygame.init()
 
@@ -10,6 +11,15 @@ clock = pygame.time.Clock()
 
 cockpit_image = pygame.image.load("cockpit.png")
 cockpit_image = pygame.transform.scale(cockpit_image, (1280, 720))
+
+enemy_image = pygame.image.load("enemyship.png")
+enemy_image = pygame.transform.scale(enemy_image, (65, 65))
+
+boss_image = pygame.image.load("boss.png")
+boss_image = pygame.transform.scale(boss_image, (180, 180))
+
+shake_effect = ShakeEffect(gamescreen, boss_image, (555, 190))
+bossFight = True
 
 points = [  # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
     (0, 12),
@@ -165,6 +175,13 @@ while not gameOver:
     pygame.draw.circle(gamescreen, path_color, (xpos_path, ypos_path), 2)
 
     gamescreen.blit(cockpit_image, (0, 0))
+
+    gamescreen.blit(enemy_image, (0, 0))
+
+    if bossFight and not shake_effect.is_shaking:
+        shake_effect.start()
+
+    shake_effect.update()
 
     pygame.display.flip()
 
