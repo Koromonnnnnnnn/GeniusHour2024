@@ -20,6 +20,9 @@ enemy_image = pygame.transform.scale(enemy_image, (65, 65))
 boss_image = pygame.image.load("boss.png")
 boss_image = pygame.transform.scale(boss_image, (180, 180))
 
+hitMarker = pygame.image.load("hitMarker.png")
+hitMarker = pygame.transform.scale(hitMarker, (50, 50))
+
 shake_effect = ShakeEffect(gamescreen, boss_image, (555, 190))
 bossFight = True
 
@@ -101,6 +104,8 @@ def hue_to_rgb(hue):  # This hue to rgb function was not created by me.
 
 bossmusic_playing = False
 
+hitmarker_positions = []
+
 while not gameOver:
     clock.tick(60)
 
@@ -110,6 +115,8 @@ while not gameOver:
         elif event.type == pygame.MOUSEBUTTONDOWN:  # For testing purposes
             x, y = pygame.mouse.get_pos()
             print(f"Pos: ({x}, {y})")
+            hitmarker_positions.append((x, y))
+
 
     angle += 1
     if angle > 360:
@@ -180,6 +187,9 @@ while not gameOver:
         )
 
     pygame.draw.circle(gamescreen, path_color, (xpos_path, ypos_path), 2)
+
+    for pos in hitmarker_positions:
+        gamescreen.blit(hitMarker, pos)
 
     gamescreen.blit(cockpit_image, (0, 0))
 
