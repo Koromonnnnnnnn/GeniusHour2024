@@ -9,25 +9,41 @@ pygame.display.set_caption("Space Shuttle Hyperspeed")
 clock = pygame.time.Clock()
 
 cockpit_image = pygame.image.load("cockpit.png")
-cockpit_image = pygame.transform.scale(
-    cockpit_image, (1280, 720)
-) 
+cockpit_image = pygame.transform.scale(cockpit_image, (1280, 720))
+
+points = [ # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
+    (0, 12), (454, 181), (492, 369),
+    (135, 439), (127, 433), (75, 454),
+    (73, 451), (52, 447), (36, 447), (0, 461)
+]
+
+points2 = [ # These points are here to define the areas where enemies are allowed to spawn. (Middle Window)
+    (517, 153), (488, 186), (513, 366),
+    (760, 366), (799, 183), (767, 149),
+    (636, 148)
+]
+
+points3 = [ # These points are here to define the areas where enemies are allowed to spawn. (Rigt Window)
+    (812, 188), (1207, 1), (1276, 3),
+    (1275, 420), (1275, 444), (1106, 394),
+    (1056, 387), (787, 379), (775, 349), (817, 181), (1026, 90)
+]
 
 gameOver = False
 
-xpos = [] 
+xpos = []
 ypos = []
 xVel = []
 yVel = []
 sizes = []
-colors = []  
-speed = 6  
+colors = []
+speed = 6
 
 angle = 0
-hue = 0  
+hue = 0
 
-# This hue to rgb function was not created by me.
-def hue_to_rgb(hue):
+
+def hue_to_rgb(hue):  # This hue to rgb function was not created by me.
     h = hue / 60.0
     c = 255
     x = c * (1 - abs((h % 2) - 1))
@@ -55,6 +71,9 @@ while not gameOver:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             gameOver = True
+        elif event.type == pygame.MOUSEBUTTONDOWN:  # For testing purposes
+            x, y = pygame.mouse.get_pos()
+            print(f"Pos: ({x}, {y})")
 
     angle += 1
     if angle > 360:
@@ -77,7 +96,7 @@ while not gameOver:
             xpos.append(640)
             ypos.append(360)
             sizes.append(1)
-            colors.append(hue_to_rgb(hue)) 
+            colors.append(hue_to_rgb(hue))
             xVel.append(normalizedVelX)
             yVel.append(normalizedVelY)
 
@@ -102,8 +121,8 @@ while not gameOver:
 
             colors[i] = hue_to_rgb(hue)
 
-    xpos_path = int(50 * math.cos(radians * 5) + 640)  
-    ypos_path = int(50 * math.sin(radians * 5) + 360) 
+    xpos_path = int(50 * math.cos(radians * 5) + 640)
+    ypos_path = int(50 * math.sin(radians * 5) + 360)
 
     hue += 1
     if hue >= 360:
@@ -111,12 +130,19 @@ while not gameOver:
 
     path_color = hue_to_rgb(hue)
 
-    gamescreen.fill((0, 0, 0))  
+    gamescreen.fill((0, 0, 0))
 
     for i in range(len(xpos)):
         pygame.draw.circle(
             gamescreen, colors[i], (int(xpos[i]), int(ypos[i])), int(sizes[i])
         )
+
+    pygame.draw.polygon(gamescreen, (255, 0, 0), points) # For testing (Left Window)
+
+    pygame.draw.polygon(gamescreen, (255, 0, 0), points2) # For testing (Middle Window)
+
+    pygame.draw.polygon(gamescreen, (255, 0, 0), points3) # For testing (Right Window)
+
 
     pygame.draw.circle(gamescreen, path_color, (xpos_path, ypos_path), 2)
 
