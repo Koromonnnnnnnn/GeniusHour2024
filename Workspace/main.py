@@ -188,12 +188,12 @@ while not gameOver:
 
     pygame.draw.circle(gamescreen, path_color, (xpos_path, ypos_path), 2)
 
+    gamescreen.blit(enemy_image, (0, 0))
+
     for pos in hitmarker_positions:
         gamescreen.blit(hitMarker, pos)
 
     gamescreen.blit(cockpit_image, (0, 0))
-
-    gamescreen.blit(enemy_image, (0, 0))
 
     if bossFight and not shake_effect.is_shaking:
         shake_effect.start()
