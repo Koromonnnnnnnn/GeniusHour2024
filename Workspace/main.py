@@ -27,7 +27,7 @@ shake_effect = ShakeEffect(gamescreen, boss_image, (555, 190))
 bossFight = True
 
 boss_music = pygame.mixer.music.load("bossBattle.mp3")
-pygame.mixer.music.set_volume(0.35)
+pygame.mixer.music.set_volume(0.5)
 
 points = [  # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
     (0, 12),
