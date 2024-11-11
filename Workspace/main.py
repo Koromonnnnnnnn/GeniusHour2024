@@ -24,7 +24,7 @@ hitMarker = pygame.image.load("hitMarker.png")
 hitMarker = pygame.transform.scale(hitMarker, (50, 50))
 
 shake_effect = ShakeEffect(gamescreen, boss_image, (555, 190))
-bossFight = True
+bossFight = False
 
 boss_music = pygame.mixer.music.load("bossBattle.mp3")
 pygame.mixer.music.set_volume(0.5)
@@ -67,6 +67,56 @@ points3 = [  # These points are here to define the areas where enemies are allow
 ]
 
 gameOver = False
+
+# repurposed space invader code
+
+class Alien:
+    def __init__(self, xpos, ypos):
+        self.xpos = xpos
+        self.ypos = ypos
+        self.isAlive = True
+
+    def draw(self, surface):
+        if self.isAlive:
+            surface.blit(enemy_image, (self.xpos, self.ypos))
+
+    def move(self, dx, dy):
+        self.xpos += dx
+        self.ypos += dy
+
+
+class AlienSpawner:
+    def __init__(self, surface):
+        self.surface = surface
+        self.armada = []
+        self.spawnAliens()
+
+    def spawnAliens(self):
+        for i in [points, points2, points3]:
+            for xpos, ypos in i:
+                self.armada.append(Alien(xpos, ypos))
+
+    def draw(self, surface):
+        for alien in self.armada:
+            alien.draw(surface)
+
+    def move(self, dx, dy):
+        for alien in self.armada:
+            if alien.isAlive:
+                alien.move(dx, dy)
+
+    def checkCollisions(self, mouse_pos):
+        global gameOver
+        for alien in self.armada:
+            if alien.isAlive:
+                alien_rect = pygame.Rect(alien.xpos, alien.ypos, 65, 65)
+                if alien_rect.collidepoint(mouse_pos):
+                    alien.isAlive = False
+                    return True
+        return False
+
+
+spawnAlien = AlienSpawner(gamescreen)
 
 xpos = []
 ypos = []
@@ -116,7 +166,10 @@ while not gameOver:
             x, y = pygame.mouse.get_pos()
             print(f"Pos: ({x}, {y})")
             hitmarker_positions.append((x, y))
+            if spawnAlien.checkCollisions((x, y)):
+                pass
 
+    # Code from last years particle slide deck
 
     angle += 1
     if angle > 360:
@@ -186,12 +239,14 @@ while not gameOver:
             gamescreen, colors[i], (int(xpos[i]), int(ypos[i])), int(sizes[i])
         )
 
-    pygame.draw.circle(gamescreen, path_color, (xpos_path, ypos_path), 2)
+    spawnAlien.move(0, 0.2)
 
-    gamescreen.blit(enemy_image, (0, 0))
+    pygame.draw.circle(gamescreen, path_color, (xpos_path, ypos_path), 2)
 
     for pos in hitmarker_positions:
         gamescreen.blit(hitMarker, pos)
+
+    spawnAlien.draw(gamescreen)
 
     gamescreen.blit(cockpit_image, (0, 0))
 
