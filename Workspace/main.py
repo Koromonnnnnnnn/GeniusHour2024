@@ -70,6 +70,7 @@ gameOver = False
 
 # repurposed space invader code
 
+
 class Alien:
     def __init__(self, xpos, ypos):
         self.xpos = xpos
@@ -167,6 +168,7 @@ while not gameOver:
             print(f"Pos: ({x}, {y})")
             hitmarker_positions.append((x, y))
             if spawnAlien.checkCollisions((x, y)):
+                print(len(spawnAlien.armada)) # list not updating and there is no where near 28 visible enemies spawning
                 pass
 
     # Code from last years particle slide deck
@@ -250,6 +252,8 @@ while not gameOver:
 
     gamescreen.blit(cockpit_image, (0, 0))
 
+    if len(spawnAlien.armada) == 0:
+        bossFight = True
     if bossFight and not shake_effect.is_shaking:
         shake_effect.start()
     if not bossmusic_playing:  # Check if music is not already playing
