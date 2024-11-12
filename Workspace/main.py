@@ -29,6 +29,8 @@ bossFight = False
 boss_music = pygame.mixer.music.load("bossBattle.mp3")
 pygame.mixer.music.set_volume(0.5)
 
+shootSFX = pygame.mixer.Sound("blasterShot.mp3")
+
 points = [  # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
     (0, 12),
     (454, 181),
@@ -113,9 +115,10 @@ class AlienSpawner:
                 alien_rect = pygame.Rect(alien.xpos, alien.ypos, 65, 65)
                 if alien_rect.collidepoint(mouse_pos):
                     alien.isAlive = False
-                    self.armada = [alien for alien in self.armada if alien.isAlive] 
+                    self.armada = [alien for alien in self.armada if alien.isAlive]
                     return True
         return False
+
 
 spawnAlien = AlienSpawner(gamescreen)
 
@@ -167,8 +170,9 @@ while not gameOver:
             x, y = pygame.mouse.get_pos()
             print(f"Pos: ({x}, {y})")
             hitmarker_positions.append((x, y))
+            pygame.mixer.Sound.play(shootSFX)
             if spawnAlien.checkCollisions((x, y)):
-                print(len(spawnAlien.armada)) # list not updating and there is no where near 28 visible enemies spawning
+                print(len(spawnAlien.armada))
                 pass
 
     # Code from last years particle slide deck
