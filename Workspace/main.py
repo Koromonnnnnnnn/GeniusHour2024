@@ -113,9 +113,9 @@ class AlienSpawner:
                 alien_rect = pygame.Rect(alien.xpos, alien.ypos, 65, 65)
                 if alien_rect.collidepoint(mouse_pos):
                     alien.isAlive = False
+                    self.armada = [alien for alien in self.armada if alien.isAlive] 
                     return True
         return False
-
 
 spawnAlien = AlienSpawner(gamescreen)
 
@@ -256,8 +256,8 @@ while not gameOver:
         bossFight = True
     if bossFight and not shake_effect.is_shaking:
         shake_effect.start()
-    if not bossmusic_playing:  # Check if music is not already playing
-        pygame.mixer.music.play(-1)  # Loop the music
+    if bossFight and not bossmusic_playing:
+        pygame.mixer.music.play(-1)
         bossmusic_playing = True
 
     shake_effect.update()
