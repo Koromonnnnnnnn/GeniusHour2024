@@ -30,7 +30,7 @@ boss_music = pygame.mixer.music.load("bossBattle.mp3")
 pygame.mixer.music.set_volume(0.5)
 
 shootSFX = pygame.mixer.Sound("blasterShot.mp3")
-shootSFX.set_volume(0.5)
+shootSFX.set_volume(0.3)
 
 points = [  # These points are here to define the areas where enemies are allowed to spawn. (Left Window)
     (0, 12),
